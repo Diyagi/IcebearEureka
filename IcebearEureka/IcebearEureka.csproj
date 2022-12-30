@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Authors></Authors>
+    <Authors>Diyagi</Authors>
     <Company></Company>
-    <Version>0.0.0.1</Version>
-    <Description>Server Id Test</Description>
+    <Version>1.0.0.0</Version>
+    <Description>Shows server id for eureka instances.</Description>
     <Copyright></Copyright>
-    <PackageProjectUrl>https://github.com/Diyagi/ServerIdTest</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Diyagi/Icebear-Eureka</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>

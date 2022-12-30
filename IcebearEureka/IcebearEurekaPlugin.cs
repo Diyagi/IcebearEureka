@@ -10,37 +10,62 @@ using Dalamud.IoC;
 
 namespace IcebearEureka
 {
-    public sealed class IcebearEurekaPlugin : IDalamudPlugin
+    public class IcebearEurekaPlugin : IDalamudPlugin
     {
-        private const string ConstName = "IcebearEureka";
+        private const string ConstName = "Icebear Eureka";
         public string Name => ConstName;
 
+        public static DalamudPluginInterface PluginInterface { get; private set; }
         public static GameNetwork GameNetwork { get; private set; }
         public static ChatGui Chat { get; private set; }
         public static DtrBar DtrBar { get; private set; }
+        
+        public static Configuration Configuration { get; private set; }
+        public IcebearEurekaUI IcebearEurekaUI { get; }
 
         private readonly Int16[] zoneIds = {732, 763, 795, 827};
-        private readonly DtrBarEntry dtrEntry;
+        private DtrBarEntry dtrEntry;
         
         public IcebearEurekaPlugin(
+            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
             [RequiredVersion("1.0")] GameNetwork gameNetwork, 
             [RequiredVersion("1.0")] DtrBar dtrBar,
             [RequiredVersion("1.0")] ChatGui chat
         )
         {
+            PluginInterface = pluginInterface;
             GameNetwork = gameNetwork;
             Chat = chat;
             DtrBar = dtrBar;
 
-            GameNetwork.NetworkMessage += NetworkMessage;
+            Configuration = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            Configuration.Initialize(pluginInterface, this);
 
-            dtrEntry = dtrBar.Get(ConstName);
-
-            if (dtrEntry != null)
+            IcebearEurekaUI = new(this);
+            
+            if (Configuration.ShowInServerBar)
             {
-                dtrEntry.Text = "SID: ???";
-                dtrEntry.Shown = false;
+                dtrEntry = dtrBar.Get(ConstName);
             }
+
+            PluginInterface.UiBuilder.Draw += IcebearEurekaUI.Draw;
+            PluginInterface.UiBuilder.OpenConfigUi += () => IcebearEurekaUI.SettingsVisible = true;
+            
+            GameNetwork.NetworkMessage += NetworkMessage;
+        }
+
+        public void SetShowInServerBar(bool value)
+        {
+            if (value == Configuration.ShowInServerBar) return;
+
+            if (value)
+            {
+                dtrEntry = DtrBar.Get(ConstName);
+                dtrEntry.Shown = false;
+                dtrEntry.Text = "SID: ??";
+            }
+            else
+                dtrEntry.Dispose();
         }
 
         private void NetworkMessage(
@@ -52,21 +77,31 @@ namespace IcebearEureka
             Int16 zoneId = Marshal.ReadInt16(dataPtr + 2);
             Int16 serverId = Marshal.ReadInt16(dataPtr);
             
-            if (zoneIds.Contains(zoneId))
-            {
-                ZoneId zone = (ZoneId)zoneId;
-                Chat.PrintChat(new XivChatEntry { Message = $"[{zone.ToString()}] Server ID: {serverId}" });
-            }
+            SendChatSid(zoneId, serverId);
+            UpdateDtr(zoneId, serverId);
             
-            if (dtrEntry != null)
-            {
-                dtrEntry.Text = $"SID: {serverId}";
-                dtrEntry.Shown = zoneIds.Contains(zoneId);
-            }
+        }
+
+        public void SendChatSid(Int16 zoneId, Int16 serverId)
+        {
+            if (!Configuration.ShowInChat) return;
+            if (!zoneIds.Contains(zoneId)) return;
+            
+            ZoneId zone = (ZoneId)zoneId;
+            Chat.PrintChat(new XivChatEntry { Type = Configuration.ShowInChatType, Message = $"[{zone.ToString()}] Server ID: {serverId}" });
+        }
+
+        private void UpdateDtr(Int16 zoneId, Int16 serverId)
+        {
+            if (!Configuration.ShowInServerBar) return;
+            
+            dtrEntry.Text = $"SID: {serverId}";
+            dtrEntry.Shown = zoneIds.Contains(zoneId);
         }
         
         public void Dispose()
         {
+            PluginInterface.UiBuilder.Draw -= IcebearEurekaUI.Draw;
             GameNetwork.NetworkMessage -= NetworkMessage;
             dtrEntry?.Dispose();
         }
