@@ -6,7 +6,7 @@
     <Version>1.0.0.0</Version>
     <Description>Shows server id for eureka instances.</Description>
     <Copyright></Copyright>
-    <PackageProjectUrl>https://github.com/Diyagi/Icebear-Eureka</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Diyagi/IcebearEureka</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -19,13 +19,6 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="..\Data\goat.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-  </ItemGroup>
 
   <PropertyGroup>
     <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
