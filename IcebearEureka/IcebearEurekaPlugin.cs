@@ -72,7 +72,7 @@ namespace IcebearEureka
             IntPtr dataPtr, ushort opCode, uint sourceActorId, uint targetActorId, NetworkMessageDirection direction)
         {
             if (direction != NetworkMessageDirection.ZoneDown) return;
-            if (opCode != 240) return;
+            if (opCode != 546) return;
 
             Int16 zoneId = Marshal.ReadInt16(dataPtr + 2);
             Int16 serverId = Marshal.ReadInt16(dataPtr);

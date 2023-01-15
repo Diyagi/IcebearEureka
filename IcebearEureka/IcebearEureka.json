@@ -4,9 +4,9 @@
   "Punchline": "'-'",
   "Description": "Show server id for eureka instances",
   "InternalName": "icebearEureka",
-  "AssemblyVersion": "1.0.0.0", 
   "RepoUrl": "https://github.com/Diyagi/IcebearEureka",
   "IconUrl": "https://raw.githubusercontent.com/Diyagi/IcebearEureka/master/images/icon.png",
   "ApplicableVersion": "any",
-  "Tags": []
+  "Tags": [], 
+  "Changelog": "- Updated opcode for 6.3 patch.\n- Updated for Dalamud API 8 and .net7"
 }
