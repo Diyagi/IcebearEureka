@@ -2,12 +2,12 @@
   "Author": "Diyagi",
   "Name": "Icebear Eureka",
   "Punchline": "'-'", 
-  "AssemblyVersion": "1.0.0.1",
+  "AssemblyVersion": "1.0.0.2",
   "Description": "Show server id for eureka instances",
   "InternalName": "icebearEureka",
   "RepoUrl": "https://github.com/Diyagi/IcebearEureka",
   "IconUrl": "https://raw.githubusercontent.com/Diyagi/IcebearEureka/master/images/icon.png",
   "ApplicableVersion": "any",
   "Tags": [], 
-  "Changelog": "- Updated opcode for 6.3 patch.\n- Updated for Dalamud API 8 and .net7"
+  "Changelog": "- Updated opcode for 6.31 patch."
 }

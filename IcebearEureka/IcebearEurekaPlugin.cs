@@ -22,8 +22,7 @@ namespace IcebearEureka
         
         public static Configuration Configuration { get; private set; }
         public IcebearEurekaUI IcebearEurekaUI { get; }
-
-        private readonly Int16[] zoneIds = {732, 763, 795, 827};
+        
         private DtrBarEntry dtrEntry;
         
         public IcebearEurekaPlugin(
@@ -72,7 +71,7 @@ namespace IcebearEureka
             IntPtr dataPtr, ushort opCode, uint sourceActorId, uint targetActorId, NetworkMessageDirection direction)
         {
             if (direction != NetworkMessageDirection.ZoneDown) return;
-            if (opCode != 546) return;
+            if (opCode != 148) return;
 
             Int16 zoneId = Marshal.ReadInt16(dataPtr + 2);
             Int16 serverId = Marshal.ReadInt16(dataPtr);
@@ -85,7 +84,7 @@ namespace IcebearEureka
         public void SendChatSid(Int16 zoneId, Int16 serverId)
         {
             if (!Configuration.ShowInChat) return;
-            if (!zoneIds.Contains(zoneId)) return;
+            if (!Enum.IsDefined(typeof(ZoneId), zoneId)) return;
             
             ZoneId zone = (ZoneId)zoneId;
             Chat.PrintChat(new XivChatEntry { Type = Configuration.ShowInChatType, Message = $"[{zone.ToString()}] Server ID: {serverId}" });
@@ -96,7 +95,7 @@ namespace IcebearEureka
             if (!Configuration.ShowInServerBar) return;
             
             dtrEntry.Text = $"SID: {serverId}";
-            dtrEntry.Shown = zoneIds.Contains(zoneId);
+            dtrEntry.Shown = Enum.IsDefined(typeof(ZoneId), zoneId);
         }
         
         public void Dispose()

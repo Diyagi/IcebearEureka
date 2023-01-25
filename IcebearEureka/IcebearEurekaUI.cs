@@ -33,23 +33,23 @@ public class IcebearEurekaUI : IDisposable
         {
             ImGui.Spacing();
 
-            var showInServerBar = IcebearEurekaPlugin.Configuration.ShowInServerBar;
+            bool showInServerBar = IcebearEurekaPlugin.Configuration.ShowInServerBar;
             if (ImGui.Checkbox("Show Server ID in the \"server info\" bar", ref showInServerBar))
             {
                 IcebearEurekaPlugin.Configuration.ShowInServerBar = showInServerBar;
                 IcebearEurekaPlugin.Configuration.Save();
             }
             
-            var showInChat = IcebearEurekaPlugin.Configuration.ShowInChat;
+            bool showInChat = IcebearEurekaPlugin.Configuration.ShowInChat;
             if (ImGui.Checkbox("Show Server ID in chat when changing instances", ref showInChat))
             {
                 IcebearEurekaPlugin.Configuration.ShowInChat = showInChat;
                 IcebearEurekaPlugin.Configuration.Save();
             }
             
-            var showInChatType = IcebearEurekaPlugin.Configuration.ShowInChatType;
-            var chatTypes = Enum.GetNames(typeof(XivChatType)).Skip(1).ToArray();  ;
-            var showInChatInt = Array.IndexOf(chatTypes, showInChatType.ToString());
+            XivChatType showInChatType = IcebearEurekaPlugin.Configuration.ShowInChatType;
+            string[] chatTypes = Enum.GetNames(typeof(XivChatType)).Skip(1).ToArray();  ;
+            int showInChatInt = Array.IndexOf(chatTypes, showInChatType.ToString());
             if (ImGui.Combo("Chat type", ref showInChatInt, chatTypes, chatTypes.Length))
             {
                 XivChatType chatType = (XivChatType)Enum.Parse(typeof(XivChatType), chatTypes[showInChatInt]);
