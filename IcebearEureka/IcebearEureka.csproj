@@ -7,7 +7,7 @@
     <Description>Shows server id for eureka instances.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Diyagi/IcebearEureka</PackageProjectUrl>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup>
